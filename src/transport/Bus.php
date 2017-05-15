@@ -1,26 +1,34 @@
 <?php
 
 /**
+ * Transportation mode: Bus
+ * Inherited from Transport
+ * 
  * @author  Timothy Quang Phuc Nguyen <quangphuc789@gmail.com>
  */
-class Bus extends Transport {
+class Bus extends Transport 
+{
     /**
-     * Constructor of Bus
+     * Constructor of Bus.
+     * 
      * @param string $description Description of bus
      * @param string $name        Name of bus
      * @param string $seat        Seating of bus
      */
-    public function __construct($description, $name = null, $seat = null) {
+    public function __construct($description, $name = null, $seat = null) 
+    {
         $this->_description = $description;
         $this->_name = $name;
         $this->_seat = $seat;
     }
 
     /**
-     * Get type of transport
+     * Get type of transport. Overrides parent's function.
+     * 
      * @return string Type of transport
      */
-    public function getType() {
+    public function getType() 
+    {
         return 'bus';
     }
 }

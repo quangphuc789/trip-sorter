@@ -2,19 +2,32 @@
 
 use PHPUnit\Framework\TestCase;
 
-include "../src/runner.php";
+include_once "src/main/iTripSorter.php";
+include_once "src/main/BoardingCard.php";
+include_once "src/main/TripSorter.php";
+include_once "src/transport/Transport.php";
+include_once "src/transport/Bus.php";
+include_once "src/transport/Train.php";
+include_once "src/transport/Flight.php";
 
-class EquivalenceTest extends TestCase
+/**
+ * Test suites for TripSorter
+ * 
+ * @author  Timothy Quang Phuc Nguyen <quangphuc789@gmail.com>
+ */
+class TripSorterTest extends TestCase
 {
     /**
      * @dataProvider providerSort
      */
-    public function testSort($arg, $expected) {
+    public function testSort($arg, $expected) 
+    {
         $tripSorter = new TripSorter($arg);
         $this->assertEquals($tripSorter->sort(), $expected);
     }
 
-    public function providerSort() {
+    public function providerSort() 
+    {
         // Test suite 0 - Default trips
         $desc_1 = "Take train 78A from Madrid to Barcelona. Sit in seat 45B.";
         $transport_1 = new Train($desc_1, "78A", "45B");
@@ -123,6 +136,85 @@ class EquivalenceTest extends TestCase
             array($arg_2_0, $expected_2),
             array($arg_2_1, $expected_2),
             array($arg_3_0, $expected_3),
+        );
+    }
+
+    /**
+     * @dataProvider providerPrintResultConsole
+     */
+    public function testPrintResultConsole($arg, $expected) 
+    {
+        $tripSorter = new TripSorter($arg);
+        $this->assertEquals($tripSorter->printResultConsole($arg, true), $expected);
+    }
+
+    public function providerPrintResultConsole() 
+    {
+        $desc_1 = "Take train 78A from Madrid to Barcelona. Sit in seat 45B.";
+        $transport_1 = new Train($desc_1, "78A", "45B");
+        $card_1 = new BoardingCard("Madrid", "Barcelona", $transport_1);
+
+        $desc_2 = "Take the airport bus from Barcelona to Gerona Airport. No seat assignment.";
+        $transport_2 = new Bus($desc_2, "Airport Bus", null);
+        $card_2 = new BoardingCard("Barcelona", "Gerona Airport", $transport_2);
+
+        $desc_3 = "From Gerona Airport, take flight SK455 to Stockholm. Gate 45B, seat 3A.\n"
+                . "Baggage drop at ticket counter 344.";
+        $transport_3 = new Flight($desc_3, "SK455", "3A", "45B");
+        $card_3 = new BoardingCard("Gerona Airport", "Stockholm", $transport_3);
+
+        $desc_4 = "From Stockholm, take flight SK22 to New York JFK. Gate 22, seat 7B.\n"
+                . "Baggage will we automatically transferred from your last leg.";
+        $transport_4 = new Flight($desc_4, "SK22", "7B", "22");
+        $card_4 = new BoardingCard("Stockholm", "New York JFK", $transport_4);
+
+        // Test suite 0 - Default trips
+        $expected_0 = 
+"Take train 78A from Madrid to Barcelona. Sit in seat 45B.
+
+Take the airport bus from Barcelona to Gerona Airport. No seat assignment.
+
+From Gerona Airport, take flight SK455 to Stockholm. Gate 45B, seat 3A.
+Baggage drop at ticket counter 344.
+
+From Stockholm, take flight SK22 to New York JFK. Gate 22, seat 7B.
+Baggage will we automatically transferred from your last leg.
+
+You have arrived at your final destination.
+";
+        $arg_0 = [$card_1, $card_2, $card_3, $card_4];
+
+        // Test suite 1
+        $expected_1 = 
+"Take train 78A from Madrid to Barcelona. Sit in seat 45B.
+
+Take train 78A from Madrid to Barcelona. Sit in seat 45B.
+
+Take train 78A from Madrid to Barcelona. Sit in seat 45B.
+
+Take train 78A from Madrid to Barcelona. Sit in seat 45B.
+
+You have arrived at your final destination.
+";
+        $arg_1 = [$card_1, $card_1, $card_1, $card_1];
+
+        // Test suite 2 - Only 1 trips
+        $expected_2 = 
+"Take train 78A from Madrid to Barcelona. Sit in seat 45B.
+
+You have arrived at your final destination.
+";
+        $arg_2 = [$card_1];
+
+        // Test suite 3 - No trip
+        $expected_3 = null;
+        $arg_3 = [];
+
+        return array(
+            array($arg_0, $expected_0),
+            array($arg_1, $expected_1),
+            array($arg_2, $expected_2),
+            array($arg_3, $expected_3),
         );
     }
 }

@@ -5,35 +5,38 @@
  *
  * @author  Timothy Quang Phuc Nguyen <quangphuc789@gmail.com>
  */
-class BoardingCard {
+class BoardingCard 
+{
     /**
      * Departure location
+     * 
      * @var string
      */
     private $_from;
 
     /**
-     * Destination
+     * Destination location
+     * 
      * @var string
      */
     private $_to;
 
     /**
-     * Transport object
+     * Transport type for the trip
+     * 
      * @var Transport
      */
     private $_transport;
 
      /**
-      * This is the construction of a BoardingCard
-      *
+      * Constructor of a BoardingCard
+      * 
       * @param string       $from   Departure location
       * @param string       $to     Destination
       * @param Transport    $to     Transport object
-      *
-      * @return BoardingCard object
       */
-    public function __construct($from, $to, $transport) {
+    public function __construct($from, $to, $transport) 
+    {
         $this->_from = $from;
         $this->_to = $to;
         $this->_transport = $transport;
@@ -41,28 +44,31 @@ class BoardingCard {
 
     /**
       * Accessor to get Departure location
-      *
+      * 
       * @return string  Departure Location
       */
-    public function getFrom() {
+    public function getFrom() 
+    {
         return $this->_from;
     }
 
     /**
-      * Accessor to get Destination
-      *
+      * Accessor to get Destination location
+      * 
       * @return string  Destination
       */
-    public function getTo() {
+    public function getTo() 
+    {
         return $this->_to;
     }
 
     /**
       * Accessor to get Description
-      *
+      * 
       * @return string  Description
       */
-    public function getDescription() {
+    public function getDescription() 
+    {
         return $this->_transport->getDescription();
     }
 }

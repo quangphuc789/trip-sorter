@@ -1,17 +1,23 @@
 <?php
 
 /**
+ * Transportation mode: Flight
+ * Inherited from Transport
+ * 
  * @author  Timothy Quang Phuc Nguyen <quangphuc789@gmail.com>
  */
-class Flight extends Transport {
+class Flight extends Transport 
+{
     /**
-     * Constructor of Flight
+     * Constructor of Flight.
+     * 
      * @param string $description Description of flight
      * @param string $name        Name of flight
      * @param string $seat        Seating of flight
      * @param string $gate        Gate of flight
      */
-    public function __construct($description, $name, $seat, $gate) {
+    public function __construct($description, $name, $seat, $gate) 
+    {
         $this->_description = $description;
         $this->_name = $name;
         $this->_seat = $seat;
@@ -19,18 +25,22 @@ class Flight extends Transport {
     }
 
     /**
-     * Accessor to get gate
+     * Accessor to get gate.
+     * 
      * @return string Gate of flight
      */
-    public function getGate() {
+    public function getGate() 
+    {
         return $this->_gate;
     }
 
     /**
-     * Get type of transport
+     * Get type of transport. Overrides parent's function.
+     * 
      * @return string Type of transport
      */
-    public function getType() {
+    public function getType() 
+    {
         return 'flight';
     }
 }
